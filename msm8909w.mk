@@ -173,3 +173,6 @@ BOARD_KERNEL_HEADER_DIR := $(BOARD_KERNEL_HEADER_DEPENDENCIES)/include
 #for android_filesystem_config.h
 PRODUCT_PACKAGES += \
     fs_config_files
+
+# Soong
+PRODUCT_SOONG_NAMESPACES += device/qcom/msm8909w
