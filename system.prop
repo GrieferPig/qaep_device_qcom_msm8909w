@@ -192,7 +192,7 @@ ro.sys.fw.bservice_limit=5
 ro.sys.fw.bservice_age=5000
 
 #set device emmc size
-ro.emmc_size=8GB
+ro.emmc_size=4GB
 
 #DPI change for 8909 wearables
 ro.sf.lcd_density=160
