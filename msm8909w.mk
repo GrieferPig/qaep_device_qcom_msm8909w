@@ -63,6 +63,14 @@ ifneq ($(strip $(QCPATH)),)
 #PRODUCT_BOOT_JARS += dpmapi
 endif
 
+# Screen density
+PRODUCT_AAPT_CONFIG := xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
+
+# Boot animation
+TARGET_SCREEN_WIDTH := 320
+TARGET_SCREEN_HEIGHT := 360
+
 # Feature definition files for msm8909w
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.output.xml:system/etc/permissions/android.hardware.audio.output.xml \
