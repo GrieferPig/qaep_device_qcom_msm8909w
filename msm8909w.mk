@@ -178,6 +178,8 @@ BOARD_KERNEL_HEADER_DEPENDENCIES := $(TARGET_WEAR_OUT)/obj/KERNEL_OBJ/usr
 BOARD_KERNEL_HEADER_DIR := $(BOARD_KERNEL_HEADER_DEPENDENCIES)/include
 $(shell mkdir -p $(BOARD_KERNEL_HEADER_DEPENDENCIES))
 $(shell cp -rf device/qcom/msm8909w/kheader $(BOARD_KERNEL_HEADER_DIR))
+PRODUCT_COPY_FILES += \
+    device/qcom/msm8909w/prebuilt/zImage-dtb:kernel
 #$(call inherit-product, device/google/clockwork/build/wearable-mdpi-512-dalvik-heap.mk)
 
 #for android_filesystem_config.h
