@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2014, The Linux Foundation. All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are
+    met:
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+        * Redistributions in binary form must reproduce the above
+          copyright notice, this list of conditions and the following
+          disclaimer in the documentation and/or other materials provided
+          with the distribution.
+        * Neither the name of The Linux Foundation nor the names of its
+          contributors may be used to endorse or promote products derived
+          from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+    ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+    BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+    BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+    OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+-->
+
+<resources>
+   <!-- Config determines whether to update phone object when voice registration
+   state changes. Voice radio tech change will always trigger an update of
+   phone object irrespective of this config -->
+<!--   <bool name="config_switch_phone_on_voice_reg_state_change">false</bool> -->
+
+   <!-- Whether cpu boost is enabled for overscroller fling. -->
+   <bool name="config_enableCpuBoostForOverScrollerFling">true</bool>
+   <integer-array name="flingboost_param_value">
+       <item>0x020B</item> <!-- CPUBOOST_MIN_FREQ resource opcode-->
+       <item>0x3E01</item> <!-- SCHED_PREFER_IDLE resource opcode -->
+   </integer-array>
+
+   <!-- Configuartion to support 7bit Ascii encoding and decoding
+   for long messages. -->
+<!--   <bool name="config_ascii_7bit_support_for_long_message">true</bool> -->
+
+   <!-- Whether cpu boost is enabled for horizontal scroll. -->
+   <bool name="config_enableCpuBoostForScroller">true</bool>
+   <integer-array name="scrollboost_param_value">
+       <item>0x020B</item> <!-- CPUBOOST_MIN_FREQ resource opcode-->
+       <item>0x3E01</item> <!-- SCHED_PREFER_IDLE resource opcode -->
+   </integer-array>
+
+   <!-- Whether cpu boost is enabled for application's 1st launch. -->
+   <bool name="config_enableCpuBoostForAppLaunch">true</bool>
+   <integer name="launchboost_timeout_param">2000</integer>
+   <integer-array name="launchboost_param_value">
+       <item>0x020C</item> <!-- CPUBOOST_MIN_FREQ resource opcode-->
+       <item>0x0101</item> <!-- DISABLE_POWER_COLLAPSE resource opcode -->
+       <item>0x0704</item> <!--Minimum number of cores online resource opcode -->
+       <item>0x1C00</item> <!-- KSMBOOST resource opcode -->
+   </integer-array>
+   <integer name="disablepacking_timeout_param">5000</integer>
+   <integer-array name="launchboost_packing_param_value">
+       <item>0x3E01</item> <!-- SCHED_PREFER_IDLE resource opcode -->
+       <item>0x4001</item> <!-- SCHED_SMALL_TASK resource opcode -->
+       <item>0x4201</item> <!-- SCHED_IDLE_NR_RUN resource opcode -->
+       <item>0x4101</item> <!-- SCHED_IDLE_LOAD resource opcode -->
+   </integer-array>
+
+   <!-- Whether cpu boost is enabled for animation during exit and entry -->
+   <bool name="config_enablePerfBoostForAnimation">true</bool>
+   <integer name="animationboost_timeout_param">600</integer>
+   <integer-array name="animationboost_param_value">
+       <item>0x020B</item> <!-- CPUBOOST_MIN_FREQ resource opcode-->
+   </integer-array>
+
+   <!-- Activity scroll boost params -->
+   <integer name="ascrollboost_timeout">17</integer>
+   <integer-array name="ascrollboost_param_value">
+       <item>0x020B</item> <!-- CPUBOOST_MIN_FREQ resource opcode-->
+       <item>0x0101</item> <!-- DISABLE_POWER_COLLAPSE resource opcode -->
+   </integer-array>
+
+   <!-- Enable button light -->
+<!--   <bool name="config_button_light_enabled">true</bool> -->
+   <!--
+   Indicate whether to allow the device to suspend when the screen is off
+   due to the proximity sensor.  This resource should only be set to true
+   if the sensor HAL correctly handles the proximity sensor as a wake-up source.
+   Otherwise, the device may fail to wake out of suspend reliably.
+   The default is false.
+   -->
+   <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
+
+   <!-- If true, enables auto-rotation features using the accelerometer.
+     Otherwise, auto-rotation is disabled.  Applications may still request
+     to use specific orientations but the sensor is ignored and sensor-based
+     orientations are not available.  Furthermore, all auto-rotation related
+     settings are omitted from the system UI.  In certain situations we may
+     still use the accelerometer to determine the orientation, such as when
+     docked if the dock is configured to enable the accelerometer. -->
+   <bool name="config_supportAutoRotation">false</bool>
+
+   <!-- Control the default UI mode type to use when there is no other type override
+         happening.  One of the following values (See Configuration.java):
+             1  UI_MODE_TYPE_NORMAL
+             4  UI_MODE_TYPE_TELEVISION
+             5  UI_MODE_TYPE_APPLIANCE
+             6  UI_MODE_TYPE_WATCH
+         Any other values will have surprising consequences. -->
+   <integer name="config_defaultUiModeType">6</integer>
+   <!-- The small screens of watch devices makes multi-window support undesireable. -->
+   <bool name="config_supportsMultiWindow">false</bool>
+</resources>
