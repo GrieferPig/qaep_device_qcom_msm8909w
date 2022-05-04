@@ -1,3 +1,0 @@
-# Kernel module make instructions go here.
-#
-obj-m := bus_timeout_mod.o

@@ -1,3 +1,0 @@
-# lat, test type, adj level, parallel writers, verbosity, NA, NA, NA, NA
-
-stability,1,9,25,0,0,0,0,0

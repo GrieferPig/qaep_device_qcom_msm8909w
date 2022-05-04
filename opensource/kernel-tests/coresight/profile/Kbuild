@@ -1,1 +1,0 @@
-obj-m := cs_profile_mod.o

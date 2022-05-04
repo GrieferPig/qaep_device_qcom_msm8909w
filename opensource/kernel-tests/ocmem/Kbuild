@@ -1,5 +1,0 @@
-obj-m := msm_ocmem_test_mod.o
-msm_ocmem_test_mod-objs := msm_ocmem_test_module.o
-ifdef CONFIG_COMPAT
-msm_ocmem_test_mod-objs += compat_msm_ocmem_test_module.o
-endif
