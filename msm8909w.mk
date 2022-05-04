@@ -176,6 +176,8 @@ PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/bootdevice/by-name/system
 TARGET_WEAR_OUT := $(subst $(ANDROID_BUILD_TOP)/,,$(ANDROID_PRODUCT_OUT))
 BOARD_KERNEL_HEADER_DEPENDENCIES := $(TARGET_WEAR_OUT)/obj/KERNEL_OBJ/usr
 BOARD_KERNEL_HEADER_DIR := $(BOARD_KERNEL_HEADER_DEPENDENCIES)/include
+$(shell mkdir -p $(BOARD_KERNEL_HEADER_DEPENDENCIES))
+$(shell cp -rf device/qcom/msm8909w/kheader $(BOARD_KERNEL_HEADER_DIR))
 #$(call inherit-product, device/google/clockwork/build/wearable-mdpi-512-dalvik-heap.mk)
 
 #for android_filesystem_config.h
