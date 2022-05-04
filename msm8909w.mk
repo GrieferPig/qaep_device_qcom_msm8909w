@@ -180,6 +180,12 @@ $(shell mkdir -p $(BOARD_KERNEL_HEADER_DEPENDENCIES))
 $(shell cp -rf device/qcom/msm8909w/kheader $(BOARD_KERNEL_HEADER_DIR))
 PRODUCT_COPY_FILES += \
     device/qcom/msm8909w/prebuilt/zImage-dtb:kernel
+$(shell mkdir -p $(TARGET_WEAR_OUT)/system/lib)
+$(shell cp -rf device/qcom/msm8909w/prebuilt/modules $(TARGET_WEAR_OUT)/system/lib)
+$(shell ln -sf /system/lib/modules/pronto/pronto_wlan.ko $(TARGET_WEAR_OUT)/system/lib/modules/wlan.ko)
+PRODUCT_COPY_FILES += \
+    device/qcom/msm8909w/prebuilt/firmware/wlan/prima/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
+    device/qcom/msm8909w/prebuilt/wifi/nvbin/msm8909_SWOC_nv.bin:data/misc/wifi/nvbin/msm8909_SWOC_nv.bin
 #$(call inherit-product, device/google/clockwork/build/wearable-mdpi-512-dalvik-heap.mk)
 
 #for android_filesystem_config.h
