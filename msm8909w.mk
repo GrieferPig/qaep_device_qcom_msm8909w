@@ -185,7 +185,11 @@ $(shell cp -rf device/qcom/msm8909w/prebuilt/modules $(TARGET_WEAR_OUT)/system/l
 $(shell ln -sf /system/lib/modules/pronto/pronto_wlan.ko $(TARGET_WEAR_OUT)/system/lib/modules/wlan.ko)
 PRODUCT_COPY_FILES += \
     device/qcom/msm8909w/prebuilt/firmware/wlan/prima/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
-    device/qcom/msm8909w/prebuilt/wifi/nvbin/msm8909_SWOC_nv.bin:data/misc/wifi/nvbin/msm8909_SWOC_nv.bin
+    device/qcom/msm8909w/prebuilt/wifi/nvbin/msm8909_SWOC_nv.bin:data/misc/wifi/nvbin/msm8909_SWOC_nv.bin \
+    device/qcom/msm8909w/prebuilt/firmware/aw8896_cfg.bin:system/etc/firmware/aw8896_cfg.bin \
+    device/qcom/msm8909w/prebuilt/firmware/aw8896_fw.bin:system/etc/firmware/aw8896_fw.bin \
+    device/qcom/msm8909w/prebuilt/firmware/aw8896_fw_d.bin:system/etc/firmware/aw8896_fw_d.bin \
+    device/qcom/msm8909w/prebuilt/firmware/aw8896_fw_e.bin:system/etc/firmware/aw8896_fw_e.bin
 #$(call inherit-product, device/google/clockwork/build/wearable-mdpi-512-dalvik-heap.mk)
 
 #for android_filesystem_config.h
