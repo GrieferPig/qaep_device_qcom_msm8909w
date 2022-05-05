@@ -687,8 +687,8 @@ PRODUCT_PACKAGE_OVERLAYS += $(BOARD_COMMON_DIR)/product/overlay
 -include frameworks/base/data/videos/VideoPackage1.mk
 
 # dm-verity definitions
-PRODUCT_VERITY_PARTITION=/dev/block/bootdevice/by-name/system
-$(call inherit-product, build/target/product/verity.mk)
+#PRODUCT_VERITY_PARTITION=/dev/block/bootdevice/by-name/system
+#$(call inherit-product, build/target/product/verity.mk)
 
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true

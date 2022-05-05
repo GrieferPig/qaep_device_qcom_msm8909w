@@ -170,8 +170,8 @@ PRODUCT_PACKAGE_OVERLAYS := $(QCPATH)/qrdplus/Extension/res-overlay \
         device/qcom/msm8909w/product/overlay \
         $(PRODUCT_PACKAGE_OVERLAYS)
 #Enable DM_VERITY support
-PRODUCT_SUPPORTS_VERITY := true
-PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/bootdevice/by-name/system
+PRODUCT_SUPPORTS_VERITY := false
+#PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/bootdevice/by-name/system
 
 TARGET_WEAR_OUT := $(subst $(ANDROID_BUILD_TOP)/,,$(ANDROID_PRODUCT_OUT))
 BOARD_KERNEL_HEADER_DEPENDENCIES := $(TARGET_WEAR_OUT)/obj/KERNEL_OBJ/usr
