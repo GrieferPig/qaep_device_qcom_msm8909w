@@ -1,8 +1,10 @@
-Device configuration for imoo Watch Phone Z5
+Device configuration for imoo Watch Phone Z6
 ================================
 
-The imoo Watch Phone Z5 (or _"XiaoTianCai Watch Phone Z5q"_ in Mainland China) (codenamed as _"msm8909w"_) is a high-end
-smartwatch for teens from imoo (_"XiaoTianCai"_ or _"Little Genius"_ in Mainland China).
+The imoo Watch Phone Z6 (or _"XiaoTianCai Watch Phone Z6"_ in Mainland China) (codenamed as _"msm8909w_i18"_) is a
+high-end smartwatch for teens from imoo (_"XiaoTianCai"_ or _"Little Genius"_ in Mainland China).
+
+It was announced in June 2019 and released in July 2019.
 
 ## Device specifications
 
@@ -13,10 +15,11 @@ smartwatch for teens from imoo (_"XiaoTianCai"_ or _"Little Genius"_ in Mainland
 |                     GPU | Adreno 304                                                   |
 |                  Memory | 512 MB RAM (LPDDR3)                                          |
 | Shipped Android Version | 7.1.1                                                        |
-|                 Storage | 4 GB eMMC 4.5 flash storage                                  |
+|                 Storage | 8 GB eMMC 4.5 flash storage                                  |
 |                 Battery | Non-removable Li-Po 680 mAh battery                          |
-|              Dimensions | 51.83 x 41.40 x 14.2 mm (without band)                       |
+|              Dimensions | 57.8 x 44.7 x 15.9 mm (without band)                         |
 |                 Display | 320 x 360 pixels, 1.41" AMOLED, 8:9 ratio (~342 ppi density) |
+|             Rear Camera | 8 MP, f/2.2, (wide), 1.12μm                                  |
 |            Front Camera | 5 MP, f/2.2, (wide), 1.12μm                                  |
 
 ## Build instructions
@@ -31,7 +34,7 @@ make -j $(nproc --all)
 
 ## Device picture
 
-![imoo Watch Phone Z5](https://cdn.shopify.com/s/files/1/0513/5115/8983/files/1-Market-Place-banner_9aba8cc2-5409-4608-a060-8595bffcd47e_1512x.jpg?v=1616118774)
+![imoo Watch Phone Z6](https://cdn.shopify.com/s/files/1/0448/5703/2857/t/2/assets/heros-z6-specs-watch-colorful@2x.png)
 
 ## License
 
