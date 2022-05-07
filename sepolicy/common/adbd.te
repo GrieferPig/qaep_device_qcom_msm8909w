@@ -1,4 +1,10 @@
 allow adbd tombstone_data_file:dir getattr;
+allow adbd kmsg_device:chr_file rw_file_perms;
+allow adbd { audio_data_file system_data_file }:file r_file_perms;
+allow adbd { audio_data_file system_data_file }:dir r_dir_perms;
+allow adbd device:dir write;
+
+allow adbd adbd:capability { dac_override dac_read_search };
 
 # allow read access for adb
 r_dir_file(adbd, RIDL_data_file)

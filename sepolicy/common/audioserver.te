@@ -44,6 +44,11 @@ allow audioserver debugfs:file rw_file_perms;
 # Allow audioserver to create socket files for audio arbitration
 allow audioserver audio_data_file:sock_file { create setattr unlink };
 allow audioserver audio_data_file:dir remove_name;
+allow audioserver audio_data_file:chr_file rw_file_perms;
+
+# access to peripheral manager
+binder_call(audioserver, per_mgr);
+allow audioserver per_mgr_service:service_manager find;
 
 # Allow audioserver to access sysfs nodes
 allow audioserver sysfs:file rw_file_perms;

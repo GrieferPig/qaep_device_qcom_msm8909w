@@ -12,6 +12,9 @@ allow init kmsg_device:chr_file write;
 #Allow triggering IPA FWs loading
 allow init ipa_dev:chr_file write;
 
+#For audio
+allow init audio_data_file:chr_file { open read setattr };
+
 #For insmod to search module key for signature verification
 allow init kernel:key search;
 
@@ -22,6 +25,9 @@ allow init tmpfs:lnk_file create_file_perms;
 #allow it for most domain. Do not honor LD_PRELOAD
 #for lmkd
 allow init { domain -lmkd }:process noatsecure;
+
+#For debugfs file permission
+allow init debugfs:file write;
 
 #For configfs file permission
 allow init configfs:dir r_dir_perms;

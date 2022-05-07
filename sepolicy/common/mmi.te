@@ -77,6 +77,14 @@ allow mmi sd_device:blk_file rw_file_perms;
 allow mmi block_device:blk_file getattr;
 allow mmi block_device:dir r_dir_perms;
 
+#boot mode
+allow mmi misc_block_device:blk_file { open read write };
+
+#storage
+allow mmi { mnt_user_file storage_file }:file create_file_perms;
+allow mmi { mnt_user_file storage_file }:lnk_file { create read unlink };
+allow mmi { mnt_user_file storage_file }:dir create_dir_perms;
+
 #camera
 allow mmi video_device:chr_file rw_file_perms;
 allow mmi camera_data_file:sock_file write;

@@ -47,3 +47,11 @@ allow dumpstate iop_socket:sock_file rw_file_perms;
 allow dumpstate iop_data_file:dir rw_dir_perms;
 allow dumpstate iop_data_file:file create_file_perms;
 dontaudit dumpstate self:capability fsetid;
+
+allow dumpstate dumpstate:netlink_xfrm_socket { nlmsg_read nlmsg_write create_socket_perms };
+allow dumpstate perffeedbackd:binder call;
+
+allow dumpstate block_device:blk_file getattr;
+allow dumpstate persist_file:dir r_dir_perms;
+allow dumpstate userdata_block_device:blk_file getattr;
+allow dumpstate wcnss_service_exec:file rx_file_perms;

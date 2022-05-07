@@ -35,6 +35,17 @@ r_dir_file(shell, RIDL_data_file)
 r_dir_file(shell, qti_logkit_priv_data_file)
 r_dir_file(shell, qti_logkit_pub_data_file)
 
+allow shell shell:capability { dac_override dac_read_search };
+allow shell kernel:security setenforce;
+allow shell security_file:file getattr;
+allow shell security_file:lnk_file r_file_perms;
+allow shell security_file:dir { getattr search };
+
 # /data/system/swap/swapfile
 allow qti_init_shell swap_data_file:dir rw_dir_perms;
 allow qti_init_shell swap_data_file:file create_file_perms;
+
+allow shell { rootfs system_data_file }:file r_file_perms;
+allow shell { system_data_file block_device }:dir r_dir_perms;
+allow shell block_device:blk_file getattr;
+allow shell block_device:chr_file getattr;

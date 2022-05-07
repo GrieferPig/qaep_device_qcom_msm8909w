@@ -1,0 +1,1 @@
+allow priv_app audio_data_file:chr_file { getattr open read write };

@@ -23,6 +23,10 @@ use_per_mgr(qcomsysd);
 #allow qcomsysd access boot mode switch
 allow qcomsysd boot_mode_prop:property_service set;
 
+allow qcomsysd kmsg_device:chr_file rw_file_perms;
+allow qcomsysd misc_block_device:blk_file { open read write };
+allow qcomsysd sysfs:file { append write };
+
 #diag
 userdebug_or_eng(`
     diag_use(qcomsysd)
