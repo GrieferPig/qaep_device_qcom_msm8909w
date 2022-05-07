@@ -28,3 +28,7 @@
 # Allow uncrypting of RIDL
 allow uncrypt RIDL_data_file:file r_file_perms;
 allow uncrypt RIDL_data_file:dir r_dir_perms;
+
+allow uncrypt system_data_file:dir r_dir_perms;
+allow uncrypt system_data_file:file r_file_perms;
+allow uncrypt system_data_file:lnk_file r_file_perms;

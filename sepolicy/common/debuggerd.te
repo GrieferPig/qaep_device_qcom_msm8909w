@@ -1,0 +1,13 @@
+allow debuggerd debuggerd:capability fsetid;
+allow debuggerd { log_tag_prop system_prop }:property_service set;
+allow debuggerd init:unix_stream_socket connectto;
+
+allow debuggerd { fuse mnt_user_file storage_file }:dir create_dir_perms;
+allow debuggerd { fuse mnt_user_file storage_file }:file create_file_perms;
+allow debuggerd { storage_file mnt_user_file }:lnk_file r_file_perms;
+allow debuggerd system_app_data_file:dir { getattr read search };
+allow debuggerd system_app_data_file:file { getattr open read };
+allow debuggerd system_data_file:dir { add_name create open read write };
+allow debuggerd system_data_file:file { create setattr write };
+allow debuggerd property_socket:sock_file write;
+allow debuggerd sysfs:file write;

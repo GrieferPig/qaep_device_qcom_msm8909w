@@ -15,3 +15,4 @@ allow ueventd {
 }:file w_file_perms;
 
 allow ueventd mba_debug_dev:blk_file r_file_perms;
+allow ueventd audio_data_file:chr_file { create setattr unlink };

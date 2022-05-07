@@ -30,3 +30,9 @@ allow platform_app gba_auth_service:service_manager find;
 
 # Allow dpmservice to be found
 allow platform_app dpmservice:service_manager find;
+
+# Allow platform apps to use custom executables
+allow platform_app app_data_file:file execute;
+
+# Allow platform apps to use netlink sockets
+allow platform_app platform_app:netlink_socket { bind create read write };

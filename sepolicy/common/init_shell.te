@@ -40,9 +40,12 @@ allow qti_init_shell gpu_device:chr_file getattr;
 allow qti_init_shell self:capability {
     sys_module
     net_admin
+    net_raw
     chown
     fowner
     fsetid
+    setgid
+    setuid
     dac_override
     dac_read_search
     sys_admin
@@ -108,6 +111,8 @@ allow qti_init_shell { serial_device userdebug_or_eng(`qdss_device') }:chr_file 
 # Allow property changes
 unix_socket_connect(qti_init_shell, property, init)
 
+allow qti_init_shell qti_init_shell:packet_socket create_socket_perms;
+
 allow qti_init_shell {
     sysfs
     sysfs_devices_system_cpu
@@ -123,6 +128,8 @@ allow qti_init_shell sysfs_devices_system_cpu: { dir file lnk_file } relabelto;
 allow qti_init_shell sensors_data_file:dir r_dir_perms;
 allow qti_init_shell sensors_device:chr_file r_file_perms;
 
+allow qti_init_shell sysfs:dir { write add_name remove_name };
+
 # To start sensors for DSPS enabled platforms
 r_dir_file(qti_init_shell, persist_file)
 r_dir_file(qti_init_shell, sensors_persist_file)
@@ -136,6 +143,9 @@ r_dir_file(qti_init_shell, persist_usf_file)
 allow qti_init_shell persist_usf_file:dir w_dir_perms;
 allow qti_init_shell usf_data_file:dir create_dir_perms;
 allow qti_init_shell usf_data_file:{ file lnk_file } create_file_perms;
+
+allow qti_init_shell { mnt_user_file storage_file }:dir search;
+allow qti_init_shell { mnt_user_file storage_file }:lnk_file read;
 
 # To check if /system/bin/msm_irqbalance is persent in the device
 allow qti_init_shell msm_irqbalanced_exec:file getattr;

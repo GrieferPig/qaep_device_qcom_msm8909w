@@ -9,3 +9,7 @@ userdebug_or_eng(`
   allow subsystem_ramdump ssr_ramdump_data_file:file create_file_perms;
   allow subsystem_ramdump ssr_ramdump_data_file:dir rw_dir_perms;
 ')
+
+allow subsystem_ramdump init:unix_stream_socket connectto;
+allow subsystem_ramdump log_tag_prop:property_service set;
+allow subsystem_ramdump property_socket:sock_file write;
