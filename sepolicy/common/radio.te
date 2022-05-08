@@ -19,3 +19,5 @@ allow radio { cameraserver_service mediaextractor_service mediacodec_service }:s
 userdebug_or_eng(`
     diag_use(radio)
 ')
+
+allow radio system_app_data_file:dir r_dir_perms;

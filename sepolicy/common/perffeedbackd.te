@@ -35,3 +35,5 @@ unix_socket_connect(perffeedbackd, mpctl, perfd)
 binder_use(perffeedbackd)
 binder_call(surfaceflinger, perffeedbackd)
 allow perffeedbackd perf_feedback_service:service_manager { add find };
+
+allow perffeedbackd rootfs:lnk_file getattr;

@@ -7,6 +7,7 @@ allow init {
     persist_file
     storage_file
 }:dir mounton;
+allow init sdcardd_exec:file rx_file_perms;
 allow init kmsg_device:chr_file write;
 
 #Allow triggering IPA FWs loading

@@ -37,6 +37,7 @@ r_dir_file(mediacodec, adsprpcd_file);
 #Allow mediacodec to access proc_net files
 allow mediacodec proc_net:file r_file_perms;
 
+allow mediacodec rootfs:lnk_file getattr;
 allow mediacodec system_file:dir r_dir_perms;
 allow mediacodec qdsp_device:chr_file r_file_perms;
 allow mediacodec media_data_file:dir create_dir_perms;
