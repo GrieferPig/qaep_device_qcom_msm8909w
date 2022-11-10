@@ -198,3 +198,7 @@ PRODUCT_PACKAGES += \
 
 # Soong
 PRODUCT_SOONG_NAMESPACES += device/qcom/msm8909w
+
+# YeetOS bits
+PRODUCT_PACKAGES += \
+    SetupWizard
