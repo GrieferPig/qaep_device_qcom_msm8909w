@@ -35,8 +35,8 @@ r_dir_file(shell, RIDL_data_file)
 r_dir_file(shell, qti_logkit_priv_data_file)
 r_dir_file(shell, qti_logkit_pub_data_file)
 
-allow shell shell:capability { dac_override dac_read_search };
-allow shell kernel:security setenforce;
+#allow shell shell:capability { dac_override dac_read_search };
+#allow shell kernel:security setenforce;
 allow shell security_file:file getattr;
 allow shell security_file:lnk_file r_file_perms;
 allow shell security_file:dir { getattr search };

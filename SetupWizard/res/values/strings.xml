@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2024, The Linux Foundation. All rights reserved.
+-->
+<resources>
+    <string name="app_name">Setup Wizard</string>
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_message">Your device is ready to be set up.</string>
+    <string name="complete_setup">Complete Setup</string>
+</resources>

@@ -113,4 +113,26 @@
    <integer name="config_defaultUiModeType">6</integer>
    <!-- The small screens of watch devices makes multi-window support undesireable. -->
    <bool name="config_supportsMultiWindow">false</bool>
+
+   <!-- Power button behavior configuration -->
+   <!-- Long press power: 1 = Show global actions (power menu) -->
+   <integer name="config_longPressOnPowerBehavior">1</integer>
+   <!-- Single press power: 5 = Go back (except on launcher, handled in PhoneWindowManager) -->
+   <integer name="config_shortPressOnPowerBehavior">5</integer>
+   <!-- Double press power: 6 = Go to sleep -->
+   <integer name="config_doublePressOnPowerBehavior">6</integer>
+   <!-- Triple press power: 5 = Launch task switcher -->
+   <integer name="config_triplePressOnPowerBehavior">5</integer>
+
+   <!-- Disable long press back going to voice assist -->
+   <integer name="config_longPressOnBackBehavior">0</integer>
+
+   <!-- Disable long press on home going to voice assist -->
+   <integer name="config_longPressOnHomeBehavior">0</integer>
+
+   <!-- Disable double tap on home -->
+   <integer name="config_doubleTapOnHomeBehavior">0</integer>
+
+   <!-- Disable camera double-tap power gesture (conflicts with our double-press back) -->
+   <bool name="config_cameraDoubleTapPowerGestureEnabled">false</bool>
 </resources>

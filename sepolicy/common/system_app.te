@@ -51,7 +51,7 @@ unix_socket_connect(system_app, mpctl, perfd)
 # access to mm-pp-daemon
 unix_socket_connect(system_app, pps, mm-pp-daemon)
 
-allow system_app debugfs:file rw_file_perms;
+#allow system_app debugfs:file rw_file_perms;
 userdebug_or_eng(`
   allow system_app su:unix_dgram_socket sendto;
   allow system_app persist_file:dir r_dir_perms;
@@ -160,7 +160,7 @@ binder_call(system_app, mdtpdaemon)
 r_dir_file(system_app, audio_pp_data_file);
 
 allow system_app audio_data_file:chr_file { getattr open read write };
-allow system_app audio_device:chr_file rw_file_perms;
+#allow system_app audio_device:chr_file rw_file_perms;
 allow system_app audio_device:dir r_dir_perms;
 
 # allow access to system app for radio files
@@ -196,10 +196,10 @@ allow system_app wcnss_filter:unix_stream_socket connectto;
 allow system_app anr_data_file:dir rw_dir_perms;
 allow system_app anr_data_file:file r_file_perms;
 # detect /data/anr directory is created
-allow system_app system_data_file:dir rw_dir_perms;
-allow system_app system_data_file:file { create rename unlink rw_file_perms };
+#allow system_app system_data_file:dir rw_dir_perms;
+#allow system_app system_data_file:file { create rename unlink rw_file_perms };
 
-allow system_app system_app_data_file:file execute;
+#allow system_app system_app_data_file:file execute;
 
 # allow access to ims helper
 unix_socket_connect(system_app, ims, ims)

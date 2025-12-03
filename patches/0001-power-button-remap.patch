@@ -1,0 +1,133 @@
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index 8057ebdd..4cd53f51 100755
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -823,6 +823,8 @@
+             1 - Go to sleep (doze)
+             2 - Really go to sleep (don't doze)
+             3 - Really go to sleep and go home (don't doze)
++            4 - Go home
++            5 - Go back
+     -->
+     <integer name="config_shortPressOnPowerBehavior">1</integer>
+ 
+@@ -830,6 +832,9 @@
+             0 - Nothing
+             1 - Toggle theater mode setting
+             2 - Brightness boost
++            3 - Go home
++            4 - Go back
++            5 - Toggle recent apps
+     -->
+     <integer name="config_doublePressOnPowerBehavior">0</integer>
+ 
+@@ -837,6 +842,9 @@
+             0 - Nothing
+             1 - Toggle theater mode setting
+             2 - Brightness boost
++            3 - Go home
++            4 - Go back
++            5 - Toggle recent apps
+     -->
+     <integer name="config_triplePressOnPowerBehavior">0</integer>
+ 
+diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 8432af24..ea490e24 100644
+--- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -71,6 +71,7 @@ import android.graphics.Rect;
+ import android.hardware.hdmi.HdmiControlManager;
+ import android.hardware.hdmi.HdmiPlaybackClient;
+ import android.hardware.hdmi.HdmiPlaybackClient.OneTouchPlayCallback;
++import android.hardware.input.InputManager;
+ import android.hardware.input.InputManagerInternal;
+ import android.media.AudioAttributes;
+ import android.media.AudioManager;
+@@ -189,6 +190,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     static final int SHORT_PRESS_POWER_REALLY_GO_TO_SLEEP = 2;
+     static final int SHORT_PRESS_POWER_REALLY_GO_TO_SLEEP_AND_GO_HOME = 3;
+     static final int SHORT_PRESS_POWER_GO_HOME = 4;
++    static final int SHORT_PRESS_POWER_GO_BACK = 5;
+ 
+     static final int LONG_PRESS_POWER_NOTHING = 0;
+     static final int LONG_PRESS_POWER_GLOBAL_ACTIONS = 1;
+@@ -201,6 +203,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     static final int MULTI_PRESS_POWER_NOTHING = 0;
+     static final int MULTI_PRESS_POWER_THEATER_MODE = 1;
+     static final int MULTI_PRESS_POWER_BRIGHTNESS_BOOST = 2;
++    static final int MULTI_PRESS_POWER_GO_HOME = 3;
++    static final int MULTI_PRESS_POWER_GO_BACK = 4;
++    static final int MULTI_PRESS_POWER_TOGGLE_RECENTS = 5;
+ 
+     // These need to match the documentation/constant in
+     // core/res/res/values/config.xml
+@@ -1214,6 +1219,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                 case SHORT_PRESS_POWER_GO_HOME:
+                     launchHomeFromHotKey(true /* awakenFromDreams */, false /*respectKeyguard*/);
+                     break;
++                case SHORT_PRESS_POWER_GO_BACK:
++                    injectBackKey();
++                    break;
+             }
+         }
+     }
+@@ -1253,6 +1261,27 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                 }
+                 mPowerManager.boostScreenBrightness(eventTime);
+                 break;
++            case MULTI_PRESS_POWER_GO_HOME:
++                Slog.i(TAG, "Multi-press power: going home.");
++                if (!interactive) {
++                    wakeUpFromPowerKey(eventTime);
++                }
++                launchHomeFromHotKey(true /* awakenFromDreams */, false /*respectKeyguard*/);
++                break;
++            case MULTI_PRESS_POWER_GO_BACK:
++                Slog.i(TAG, "Multi-press power: injecting back key.");
++                if (!interactive) {
++                    wakeUpFromPowerKey(eventTime);
++                }
++                injectBackKey();
++                break;
++            case MULTI_PRESS_POWER_TOGGLE_RECENTS:
++                Slog.i(TAG, "Multi-press power: launching task switcher.");
++                if (!interactive) {
++                    wakeUpFromPowerKey(eventTime);
++                }
++                launchTaskSwitcher();
++                break;
+         }
+     }
+ 
+@@ -3800,6 +3829,32 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         }
+     }
+ 
++    /**
++     * Inject a BACK key event to simulate pressing the back button.
++     */
++    private void injectBackKey() {
++        final long now = SystemClock.uptimeMillis();
++        final KeyEvent downEvent = new KeyEvent(now, now, KeyEvent.ACTION_DOWN,
++                KeyEvent.KEYCODE_BACK, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
++                KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
++                InputDevice.SOURCE_KEYBOARD);
++        final KeyEvent upEvent = KeyEvent.changeAction(downEvent, KeyEvent.ACTION_UP);
++        InputManager.getInstance().injectInputEvent(downEvent,
++                InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
++        InputManager.getInstance().injectInputEvent(upEvent,
++                InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
++    }
++
++    /**
++     * Launch the custom TaskSwitcher app.
++     */
++    private void launchTaskSwitcher() {
++        Intent intent = new Intent("com.qcom.taskswitcher.TOGGLE");
++        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
++        mContext.startActivityAsUser(intent, UserHandle.CURRENT_OR_SELF);
++    }
++
+     private final Runnable mClearHideNavigationFlag = new Runnable() {
+         @Override
+         public void run() {

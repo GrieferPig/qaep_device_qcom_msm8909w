@@ -1,0 +1,11 @@
+# Public libraries for debug/userdebug builds
+# This is a trimmed version for minimal build - removed test libraries
+# Original file: vendor/qcom/proprietary/common/config/public.libraries_debug.txt
+#
+# Removed libraries (not built in minimal build):
+# - libnative_audio_latency_jni.so (AudioLatencyTest removed)
+# - libsensor_test.so (sensor test removed)
+# - libsensor_reg.so (sensor test removed)
+# - libsensor_thresh.so (sensor test removed)
+
+libnativeloader.so

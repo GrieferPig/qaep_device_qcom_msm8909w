@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/black">
+
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="64sp"
+        android:textColor="@android:color/white"
+        android:text="@string/default_time"
+        android:fontFamily="sans-serif-thin"
+        android:includeFontPadding="false" />
+
+    <TextView
+        android:id="@+id/date_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:textColor="#B0B0B0"
+        android:text="@string/default_date"
+        android:fontFamily="sans-serif-light" />
+
+</LinearLayout>

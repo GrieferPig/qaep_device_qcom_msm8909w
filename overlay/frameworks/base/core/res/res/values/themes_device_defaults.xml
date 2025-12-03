@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2024, The Linux Foundation. All rights reserved.
+
+Override DeviceDefault themes to inherit from Material instead of Holo.
+This ensures Android 7 Material Design UI is used across the system.
+-->
+
+<resources>
+    <!-- DeviceDefault themes now inherit from Material -->
+    <style name="Theme.DeviceDefault" parent="@android:style/Theme.Material">
+    </style>
+
+    <style name="Theme.DeviceDefault.NoActionBar" parent="@android:style/Theme.Material.NoActionBar">
+    </style>
+
+    <style name="Theme.DeviceDefault.NoActionBar.Fullscreen" parent="@android:style/Theme.Material.NoActionBar.Fullscreen">
+    </style>
+
+    <style name="Theme.DeviceDefault.NoActionBar.Overscan" parent="@android:style/Theme.Material.NoActionBar.Overscan">
+    </style>
+
+    <style name="Theme.DeviceDefault.NoActionBar.TranslucentDecor" parent="@android:style/Theme.Material.NoActionBar.TranslucentDecor">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light" parent="@android:style/Theme.Material.Light">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.NoActionBar" parent="@android:style/Theme.Material.Light.NoActionBar">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.NoActionBar.Fullscreen" parent="@android:style/Theme.Material.Light.NoActionBar.Fullscreen">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.NoActionBar.Overscan" parent="@android:style/Theme.Material.Light.NoActionBar.Overscan">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.NoActionBar.TranslucentDecor" parent="@android:style/Theme.Material.Light.NoActionBar.TranslucentDecor">
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog" parent="@android:style/Theme.Material.Dialog">
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog.NoActionBar" parent="@android:style/Theme.Material.Dialog.NoActionBar">
+    </style>
+
+    <style name="Theme.DeviceDefault.Dialog.Alert" parent="@android:style/Theme.Material.Dialog.Alert">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Dialog" parent="@android:style/Theme.Material.Light.Dialog">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Dialog.NoActionBar" parent="@android:style/Theme.Material.Light.Dialog.NoActionBar">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Dialog.Alert" parent="@android:style/Theme.Material.Light.Dialog.Alert">
+    </style>
+
+    <style name="Theme.DeviceDefault.Settings" parent="@android:style/Theme.Material.Settings">
+    </style>
+
+    <style name="Theme.DeviceDefault.InputMethod" parent="@android:style/Theme.Material.InputMethod">
+    </style>
+
+    <style name="Theme.DeviceDefault.Panel" parent="@android:style/Theme.Material.Panel">
+    </style>
+
+    <style name="Theme.DeviceDefault.Light.Panel" parent="@android:style/Theme.Material.Light.Panel">
+    </style>
+
+    <style name="Theme.DeviceDefault.Wallpaper" parent="@android:style/Theme.Material.Wallpaper">
+    </style>
+
+    <style name="Theme.DeviceDefault.Wallpaper.NoTitleBar" parent="@android:style/Theme.Material.Wallpaper.NoTitleBar">
+    </style>
+</resources>

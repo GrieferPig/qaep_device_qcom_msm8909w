@@ -33,19 +33,27 @@ AUDIO_POLICY += audio_policy.default
 AUDIO_POLICY += audio_policy.conf
 AUDIO_POLICY += audio_policy.msm8909
 
-#tinyalsa test apps
+#tinyalsa test apps - only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 TINY_ALSA_TEST_APPS := tinyplay
 TINY_ALSA_TEST_APPS += tinycap
 TINY_ALSA_TEST_APPS += tinymix
 TINY_ALSA_TEST_APPS += tinypcminfo
 TINY_ALSA_TEST_APPS += cplay
+else
+TINY_ALSA_TEST_APPS :=
+endif
 
 #AMPLOADER
 AMPLOADER := amploader
 
-#APPS
+#APPS - test/sample apps, only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 APPS := QualcommSoftAP
 APPS += TSCalibration
+else
+APPS :=
+endif
 
 #BRCTL
 BRCTL := brctl
@@ -80,10 +88,14 @@ CONNECTIVITY += services-ext
 CURL := libcurl
 CURL += curl
 
-#CM
+#CM - CyanogenMod/LineageOS apps, only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 CM := CMFileManager
 CM += Trebuchet
 CM += Eleven
+else
+CM :=
+endif
 
 #DASH
 DASH := libdashplayer
@@ -188,8 +200,12 @@ IPTABLES := libiptc
 IPTABLES += libext
 IPTABLES += iptables
 
-#KERNEL_TESTS
+#KERNEL_TESTS - only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 KERNEL_TESTS := mm-audio-native-test
+else
+KERNEL_TESTS :=
+endif
 
 #KEYPAD
 KEYPAD := ffa-keypad_qwerty.kcm
@@ -214,6 +230,7 @@ KEYPAD += ft5x06_ts.kl
 KEYPAD += ffa-keypad.kl
 KEYPAD += fluid-keypad.kl
 KEYPAD += gpio-keys.kl
+KEYPAD += qpnp_pon.kl
 KEYPAD += keypad_8960.kl
 KEYPAD += keypad_8960_liquid.kl
 KEYPAD += synaptics_rmi4_i2c.kl
@@ -243,9 +260,12 @@ LIBCAMERA += libmmcamera_interface2
 LIBCAMERA += libmmjpeg_interface
 LIBCAMERA += libmmlib2d_interface
 LIBCAMERA += libqomx_core
+# Camera test apps - only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 LIBCAMERA += mm-qcamera-app
 LIBCAMERA += camera_test
 LIBCAMERA += org.codeaurora.camera
+endif
 
 #LIBCOPYBIT
 LIBCOPYBIT := copybit.msm8909
@@ -321,14 +341,17 @@ MM_CORE := libmm-omxcore
 MM_CORE += libOmxCore
 
 #MM_VIDEO
-MM_VIDEO := ast-mm-vdec-omx-test
-MM_VIDEO += liblasic
+# Core MM_VIDEO libraries
+MM_VIDEO := liblasic
 MM_VIDEO += libOmxVdec
 MM_VIDEO += libOmxVdecHevc
 MM_VIDEO += libOmxVdpp
 MM_VIDEO += libOmxVenc
 MM_VIDEO += libOmxVidEnc
 MM_VIDEO += libstagefrighthw
+# MM_VIDEO test apps - only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
+MM_VIDEO += ast-mm-vdec-omx-test
 MM_VIDEO += mm-vdec-omx-property-mgr
 MM_VIDEO += mm-vdec-omx-test
 MM_VIDEO += mm-venc-omx-test
@@ -336,6 +359,7 @@ MM_VIDEO += mm-venc-omx-test720p
 MM_VIDEO += mm-video-driver-test
 MM_VIDEO += mm-video-encdrv-test
 MM_VIDEO += ExoplayerDemo
+endif
 
 #NQ_NFC
 NQ_NFC := NQNfcNci
@@ -450,6 +474,38 @@ CRDA += init.crda.sh
 WLAN := prima_wlan.ko
 WLAN += pronto_wlan.ko
 
+# PRODUCT_PACKAGES - Minimal build vs full build
+ifeq ($(MINIMAL_BUILD),true)
+# Minimal build: Core system + connectivity only
+# Essential system apps
+PRODUCT_PACKAGES += \
+    Bluetooth \
+    CertInstaller \
+    DefaultContainerService \
+    DrmProvider \
+    Settings \
+    Stk \
+    TeleService \
+    Telecom \
+    ContactsProvider \
+    TelephonyProvider \
+    BlockedNumberProvider \
+    FusedLocation \
+    InputDevices \
+    DocumentsUI \
+    ExternalStorageProvider \
+    MtpDocumentsProvider \
+    VpnDialogs \
+    ProxyHandler \
+    PacProcessor \
+    KeyChain \
+    webview \
+#    SystemUI \
+#    Phone \
+#    Contacts \
+
+else
+# Full build: Include all apps
 PRODUCT_PACKAGES := \
     AccountAndSyncSettings \
     DeskClock \
@@ -480,15 +536,22 @@ PRODUCT_PACKAGES := \
     VoiceDialer \
     SnapdragonGallery \
     VoiceInteraction
+endif
 
 
+# BT test apps - only include for non-AOSP and non-MINIMAL builds
 ifneq ($(TARGET_USES_AOSP),true)
+ifneq ($(MINIMAL_BUILD),true)
 PRODUCT_PACKAGES += \
        BluetoothExt \
        BTTestApp \
        HiddTestApp \
        BTLogKit \
        BTLogSave
+else
+# For minimal build, only include BluetoothExt (core extension)
+PRODUCT_PACKAGES += BluetoothExt
+endif
 endif
 
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)
@@ -570,12 +633,14 @@ PRODUCT_PACKAGES += $(CRDA)
 PRODUCT_PACKAGES += $(WLAN)
 PRODUCT_PACKAGES += $(IMS_EXT)
 
-# Live Wallpapers
+# Live Wallpapers - only include if not MINIMAL_BUILD
+ifneq ($(MINIMAL_BUILD),true)
 PRODUCT_PACKAGES += \
         LiveWallpapers \
         LiveWallpapersPicker \
         VisualizationWallpapers \
         librs_jni
+endif
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \

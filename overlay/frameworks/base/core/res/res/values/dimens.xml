@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2024, The Linux Foundation. All rights reserved.
+-->
+<resources>
+    <!-- Hide status bar permanently by setting height to 0 -->
+    <dimen name="status_bar_height">0dp</dimen>
+    
+    <!-- Navigation bar height -->
+    <dimen name="navigation_bar_height">0dp</dimen>
+</resources>

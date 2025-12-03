@@ -31,4 +31,10 @@
 <resources>
    <!-- Disable KeyguardService -->
    <bool name="config_enableKeyguardService">false</bool>
+
+   <!-- Disable notification shade / pull-down menu -->
+   <bool name="config_enableNotificationPanelExpand">false</bool>
+
+   <!-- Disable status bar icon area -->
+   <bool name="config_showNotificationIcon">false</bool>
 </resources>

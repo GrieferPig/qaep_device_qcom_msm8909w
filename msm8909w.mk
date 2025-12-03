@@ -10,6 +10,16 @@ BOARD_DISPLAY_HAL := hardware/qcom/display/msm8909
 BOARD_BT_HAL := hardware/qcom/bt/msm8909
 BOARD_WLAN_HAL := hardware/qcom/wlan/msm8909
 
+# ============================================================================
+# MINIMAL BUILD CONFIGURATION
+# Trimmed build: Keep system services, connectivity (telephony, wifi, bluetooth)
+# Keep only WatchFace and WatchSettings apps, remove test/example/holder apps
+# ============================================================================
+MINIMAL_BUILD := true
+
+# Force AOSP mode to exclude BT test apps (BTTestApp, HiddTestApp, BTLogKit, BTLogSave)
+TARGET_USES_AOSP := true
+
 TARGET_USES_QCOM_BSP := true
 ifeq ($(TARGET_USES_QCOM_BSP), true)
 # Add QC Video Enhancements flag
@@ -32,13 +42,27 @@ MALLOC_SVELTE := true
 # media_profiles and media_codecs xmls for msm8909
 ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS), true)
 PRODUCT_COPY_FILES += device/qcom/msm8909w/media/media_profiles_8909.xml:system/etc/media_profiles.xml \
-                      device/qcom/msm8909w/media/media_codecs_8909.xml:system/etc/media_codecs.xml
+                      device/qcom/msm8909w/media/media_codecs_8909.xml:system/etc/media_codecs.xml \
+                      frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+                      frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+                      frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video.xml
 endif
 
 $(call inherit-product, $(BOARD_COMMON_DIR)/common.mk)
 
 PRODUCT_NAME := msm8909w
 PRODUCT_DEVICE := msm8909w
+
+# Default locale and language settings
+PRODUCT_LOCALES := en_US
+PRODUCT_DEFAULT_LOCALE := en_US
+
+# Default timezone (UTC-8, e.g., Pacific Standard Time)
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.timezone=Etc/GMT+8 \
+    persist.sys.language=en \
+    persist.sys.country=US \
+    persist.sys.localevar=
 
 ifeq ($(strip $(TARGET_USES_QTIC)),true)
 # font rendering engine feature switch
@@ -150,12 +174,12 @@ PRODUCT_PACKAGES += \
     wpa_supplicant_overlay.conf \
     p2p_supplicant_overlay.conf
 #ANT+ stack
-PRODUCT_PACKAGES += \
-AntHalService \
-libantradio \
-antradio_app
+# PRODUCT_PACKAGES += \
+# AntHalService \
+# libantradio \
+# antradio_app
 
-# Defined the locales
+# Additional locales (en_US is the default, set above)
 PRODUCT_LOCALES += th_TH vi_VN tl_PH hi_IN ar_EG ru_RU tr_TR pt_BR bn_IN mr_IN ta_IN te_IN zh_HK \
         in_ID my_MM km_KH sw_KE uk_UA pl_PL sr_RS sl_SI fa_IR kn_IN ml_IN ur_IN gu_IN or_IN en_ZA
 
@@ -201,4 +225,74 @@ PRODUCT_SOONG_NAMESPACES += device/qcom/msm8909w
 
 # YeetOS bits
 PRODUCT_PACKAGES += \
-    SetupWizard
+    SetupWizard \
+    AssistPlaceholder \
+    TaskSwitcher \
+    Launcher
+
+# ============================================================================
+# MINIMAL BUILD - Trim packages for smaller image
+# Remove test apps, sample apps, and unnecessary holder apps
+# Keep only WatchFace and WatchSettings from watch apps
+# ============================================================================
+ifeq ($(MINIMAL_BUILD),true)
+
+# Include trimmed packages configuration
+-include device/qcom/msm8909w/trimmed_packages.mk
+
+# ============================================================================
+# OVERRIDE WATCH_PACKAGES - Keep only essential watch apps
+# ============================================================================
+# These packages are for WatchFace functionality
+WATCH_PACKAGES := watchface
+WATCH_PACKAGES += watchfaceanalogclock
+WATCH_PACKAGES += watchfaceanalogdigitalclock
+
+# These packages are for WatchSettings functionality
+WATCH_PACKAGES := watchsettings
+WATCH_PACKAGES += watchwifi
+WATCH_PACKAGES += watchbluetooth
+WATCH_PACKAGES += watchairplanemode
+WATCH_PACKAGES += watchcellular
+WATCH_PACKAGES += watchdatetime
+WATCH_PACKAGES += watchdeveloperoptions
+
+# Context mode support (needed for watch functionality)
+WATCH_PACKAGES += contextualmodedozeservice
+WATCH_PACKAGES += qwcontextualmodelib.xml
+WATCH_PACKAGES += qwcontextualmodelib
+
+# ============================================================================
+# MINIMAL BUILD NOTES
+# ============================================================================
+# The following packages are excluded by inheriting core_minimal.mk instead of
+# full_base_telephony.mk, and by conditionals in device-vendor.mk and base.mk:
+#
+# Removed AOSP apps: DeskClock, Calculator, Calendar, CalendarProvider, Camera,
+#   Email, Gallery2, SnapdragonGallery, LatinIME, Mms, Music, QuickSearchBox,
+#   Browser2, DownloadProviderUi, LiveWallpapers, etc.
+#
+# Removed watch apps: launcher, watchhome, watchalarm, WatchContacts, watchdialer,
+#   watchmessenger, watchmusicplayer, watchface*, STApp, ctsintenthandler
+#
+# Removed test apps: BTTestApp, HiddTestApp, BTLogKit, BTLogSave, QSensorTest,
+#   ArSensorTest, camera_test, mm-qcamera-app, ExoplayerDemo, ODLT, etc.
+#
+# Removed debug packages: DIAG, DISPLAY_TESTS, FTM, SENSORS_DBG, GPS_DBG, etc.
+#
+# Kept essential packages:
+# - Settings (core system UI)
+# - Phone, telephony-ext, tcmiface, TeleService, Telecom (telephony)
+# - Bluetooth, BluetoothExt (connectivity)
+# - wpa_supplicant, hostapd, wcnss_service (WiFi)
+# - All audio/display/graphics HALs
+# - All init scripts
+# - OEM services, thermal engine, time services
+# - Sensors (without test apps)
+# - NFC (if TARGET_USES_NQ_NFC)
+# - DrmProvider, CertInstaller, KeyChain (security)
+# - Stk (SIM toolkit)
+# - WatchSettings and settings plugins (watchwifi, watchbluetooth, etc.)
+# - Contacts, ContactsProvider (for telephony)
+
+endif # MINIMAL_BUILD

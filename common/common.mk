@@ -4,7 +4,36 @@ $(call inherit-product, $(BOARD_COMMON_DIR)/base.mk)
 # Since we want use QC specific files, we should inherit
 # device-vendor.mk first to make sure QC specific files gets installed.
 $(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
+
+# For minimal build, inherit core_minimal instead of full_base_telephony
+# to avoid pulling in unnecessary AOSP apps
+ifeq ($(MINIMAL_BUILD),true)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/telephony.mk)
+# Add fonts and hyphenation (required for UI rendering)
+$(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)
+$(call inherit-product-if-exists, external/roboto-fonts/fonts.mk)
+$(call inherit-product-if-exists, external/noto-fonts/fonts.mk)
+$(call inherit-product-if-exists, external/hyphenation-patterns/patterns.mk)
+# Add audio files for /system/media/audio
+$(call inherit-product-if-exists, frameworks/base/data/sounds/AllAudio.mk)
+# Add software audio/video codecs (required for OGG/Vorbis, MP3, etc.)
+PRODUCT_PACKAGES += \
+    libstagefright_soft_vorbisdec \
+    libstagefright_soft_mp3dec \
+    libstagefright_soft_aacdec \
+    libstagefright_soft_aacenc \
+    libstagefright_soft_amrdec \
+    libstagefright_soft_amrnbenc \
+    libstagefright_soft_amrwbenc \
+    libstagefright_soft_flacenc \
+    libstagefright_soft_g711dec \
+    libstagefright_soft_gsmdec \
+    libstagefright_soft_opusdec \
+    libstagefright_soft_rawdec
+else
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+endif
 
 PRODUCT_BRAND := qcom
 PRODUCT_AAPT_CONFIG += hdpi mdpi

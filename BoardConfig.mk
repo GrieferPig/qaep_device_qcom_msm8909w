@@ -100,7 +100,7 @@ ifeq ($(HOST_OS),linux)
     endif
 endif
 
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
 #BOARD_KERNEL_SEPARATED_DT := true
 
 BOARD_EGL_CFG := device/qcom/msm8909w/egl.cfg
@@ -165,3 +165,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Control flag between KM versions
 TARGET_HW_KEYMASTER_V03 := false
+
+# SELinux policies
+BOARD_SEPOLICY_DIRS += device/qcom/msm8909w/sepolicy

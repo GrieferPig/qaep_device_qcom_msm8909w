@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2024, The Linux Foundation. All rights reserved.
+-->
+<resources>
+    <string name="app_name">Recent Apps</string>
+    <string name="no_recent_apps">No recent apps</string>
+    <string name="tap_to_switch">Tap to switch</string>
+    <string name="accessibility_description">Listens for menu key to open task switcher</string>
+    <string name="swipe_hint">Swipe left to close app</string>
+</resources>

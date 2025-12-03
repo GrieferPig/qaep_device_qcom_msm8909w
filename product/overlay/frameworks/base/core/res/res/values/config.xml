@@ -32,12 +32,12 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <resources>
     <!-- Enable doze mode -->
-    <string name="config_dozeComponent">com.qualcomm.qti.contextualmode/com.qualcomm.qti.contextualmode.ContextualModeDozeService</string>
-    <bool name="config_dozeAfterScreenOff">false</bool>
+    <!-- <string name="config_dozeComponent">com.qualcomm.qti.contextualmode/com.qualcomm.qti.contextualmode.ContextualModeDozeService</string> -->
+    <bool name="config_dozeAfterScreenOff">true</bool>
     <!-- Screen brightness when dozing. -->
     <integer name="config_screenBrightnessDoze">17</integer>
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
     <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
-    <bool name="config_dreamsSupported">false</bool>
+    <bool name="config_dreamsSupported">true</bool>
 </resources>
 

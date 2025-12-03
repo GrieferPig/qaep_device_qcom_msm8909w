@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design accent color (teal) -->
+    <color name="accent_color">#FF26A69A</color>
+    <!-- Ripple color for touch feedback (white with transparency) -->
+    <color name="ripple_color">#33FFFFFF</color>
+    <!-- Pressed state color -->
+    <color name="pressed_color">#33FFFFFF</color>
+</resources>
