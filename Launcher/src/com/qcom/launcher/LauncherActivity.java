@@ -22,9 +22,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -67,10 +66,9 @@ public class LauncherActivity extends Activity {
     private static final int PERIODIC_INTERVAL = 30000; // 30 seconds
     private static final int NOTIFICATION_ID = 1001;
 
-    // Cover to sleep settings
-    private static final float COVER_TOUCH_SIZE_THRESHOLD = 0.25f; // 25% of screen area
-    private static final long COVER_HOLD_DURATION = 500; // Hold for 500ms to sleep
-    private static final int MIN_TOUCH_POINTS_FOR_COVER = 1; // Minimum touch points for cover detection
+    // Cover to sleep: keycode 254 (0x00fe) is sent by cyttsp5 touchscreen driver
+    // when a large area is detected (palm/hand covering screen)
+    private static final int KEYCODE_LARGE_TOUCH = 254;
 
     // Packages to hide from launcher
     private static final Set<String> HIDDEN_PACKAGES = new HashSet<>();
@@ -88,14 +86,6 @@ public class LauncherActivity extends Activity {
     private Handler mHandler = new Handler();
     private boolean mPeriodicEnabled = false;
     private int mNotificationCounter = 0;
-
-    // Cover to sleep state
-    private int mScreenWidth;
-    private int mScreenHeight;
-    private float mScreenArea;
-    private long mCoverStartTime = 0;
-    private boolean mCoverDetected = false;
-    private Runnable mCoverSleepRunnable;
 
     // Receive power button broadcasts from PhoneWindowManager
     private BroadcastReceiver mPowerKeyReceiver = new BroadcastReceiver() {
@@ -162,23 +152,6 @@ public class LauncherActivity extends Activity {
         );
 
         setContentView(R.layout.activity_launcher);
-
-        // Get screen dimensions for cover detection
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        mScreenWidth = metrics.widthPixels;
-        mScreenHeight = metrics.heightPixels;
-        mScreenArea = mScreenWidth * mScreenHeight;
-
-        // Initialize cover sleep runnable
-        mCoverSleepRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mCoverDetected) {
-                    goToSleep();
-                }
-            }
-        };
 
         // Acquire wake lock to prevent screen off
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -285,97 +258,22 @@ public class LauncherActivity extends Activity {
         }
     }
 
+    /**
+     * Handle key events for cover-to-sleep detection.
+     * The cyttsp5 touchscreen driver sends keycode 254 (0x00fe) when a large area
+     * is detected (palm/hand covering the screen).
+     */
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        // Handle cover-to-sleep detection
-        handleCoverToSleep(event);
-        return super.dispatchTouchEvent(event);
-    }
-
-    /**
-     * Detect if user is covering the screen with their hand/palm.
-     * Uses touch size and multiple touch points to detect a cover gesture.
-     */
-    private void handleCoverToSleep(MotionEvent event) {
-        int action = event.getActionMasked();
-        Log.d("LauncherActivity", "Touch event: action=" + action + ", pointers=" + event.getPointerCount() + ", size=" + event.getSize());
-        
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                // Calculate total touch area from all pointers
-                float totalTouchArea = calculateTotalTouchArea(event);
-                float touchRatio = totalTouchArea / mScreenArea;
-                int pointerCount = event.getPointerCount();
-                
-                // Check if this looks like a cover gesture:
-                // Either a large single touch OR multiple touch points with significant area
-                boolean isCoverGesture = (touchRatio >= COVER_TOUCH_SIZE_THRESHOLD) ||
-                    (pointerCount >= 3 && touchRatio >= COVER_TOUCH_SIZE_THRESHOLD * 0.5f);
-                
-                if (isCoverGesture) {
-                    if (!mCoverDetected) {
-                        // Start cover detection
-                        mCoverDetected = true;
-                        mCoverStartTime = System.currentTimeMillis();
-                        mHandler.postDelayed(mCoverSleepRunnable, COVER_HOLD_DURATION);
-                    }
-                } else {
-                    // Not a cover gesture, reset
-                    resetCoverDetection();
-                }
-                break;
-                
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_POINTER_UP:
-                // Only reset if all pointers are up
-                if (event.getPointerCount() <= 1) {
-                    resetCoverDetection();
-                }
-                break;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_LARGE_TOUCH) {
+            Log.d("LauncherActivity", "Large touch detected (cover screen), going to sleep");
+            goToSleep();
+            return true;
         }
-    }
-
-    /**
-     * Calculate the total touch area from all touch pointers.
-     * Uses touch major/minor axes to estimate elliptical touch area.
-     */
-    private float calculateTotalTouchArea(MotionEvent event) {
-        float totalArea = 0;
-        int pointerCount = event.getPointerCount();
-        
-        for (int i = 0; i < pointerCount; i++) {
-            float touchMajor = event.getTouchMajor(i);
-            float touchMinor = event.getTouchMinor(i);
-            
-            // If touch size is reported (not all devices support this)
-            if (touchMajor > 0 && touchMinor > 0) {
-                // Approximate elliptical area: π * a * b
-                totalArea += (float) (Math.PI * (touchMajor / 2) * (touchMinor / 2));
-            } else if (touchMajor > 0) {
-                // Circular approximation if only major is available
-                totalArea += (float) (Math.PI * (touchMajor / 2) * (touchMajor / 2));
-            } else {
-                // Fallback: use a default finger size (~50dp) if no size info
-                float defaultSize = 50 * getResources().getDisplayMetrics().density;
-                totalArea += (float) (Math.PI * (defaultSize / 2) * (defaultSize / 2));
-            }
-        }
-        
-        Log.d("LauncherActivity", "Total touch area: " + totalArea);
-        return totalArea;
-    }
-
-    private void resetCoverDetection() {
-        mCoverDetected = false;
-        mCoverStartTime = 0;
-        mHandler.removeCallbacks(mCoverSleepRunnable);
+        return super.onKeyDown(keyCode, event);
     }
 
     private void goToSleep() {
-        resetCoverDetection();
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (pm != null) {
             pm.goToSleep(System.currentTimeMillis(),

@@ -6,6 +6,10 @@ high-end smartwatch for teens from imoo (_"XiaoTianCai"_ or _"Little Genius"_ in
 
 It was announced in June 2019 and released in July 2019.
 
+## Side notes / Discoveries
+
+See [here](sidenotes.md)
+
 ## Device specifications
 
 |                   Basic | Spec Sheet                                                   |
